@@ -33,7 +33,7 @@ describe("Encoding Base64", function () {
 
     it("should encode string correctly to base64", function () {
         for (var i = 0; i < input.length; i++) {
-            expect(Base64.encode(input[i])).toBe(output[i]);
+            expect(Base64.encode(input[i])).toEqual(output[i]);
         }
     });
 

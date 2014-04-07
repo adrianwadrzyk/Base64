@@ -18,10 +18,10 @@
 
             first6bit  = first8bit >> 2;
             if (second8bit) {
-                second6bit = (first8bit & 3) << 4 | second8bit >> 4;
+                second6bit = ((first8bit & 3) << 4) | (second8bit >> 4);
 
                 if (third8bit) {
-                    third6bit  = (second8bit & 15) << 2 | third8bit >> 6;
+                    third6bit  = ((second8bit & 15) << 2) | (third8bit >> 6);
                     fourth6bit = third8bit & 63;
                 }
             }
@@ -54,8 +54,29 @@
         return result;
     }
 
-    function decode () {
+    function decode (str) {
+        var result = "",
+            first8bit, second8bit, third8bit,
+            first6bit, second6bit, third6bit, fourth6bit;
 
+        str = str.replace(/=+$/, '');
+
+        for (var i = 0, len = str.length; i < len; i += 4) {
+            first6bit  = INDEX_TABLE.indexOf(str.charAt(i));
+            second6bit = INDEX_TABLE.indexOf(str.charAt(i + 1));
+            third6bit  = INDEX_TABLE.indexOf(str.charAt(i + 2));
+            fourth6bit = INDEX_TABLE.indexOf(str.charAt(i + 3));
+
+            first8bit  = (first6bit << 2) | (second6bit >> 4);
+            second8bit = ((second6bit & 15) << 4) | (third6bit >> 2);
+            third8bit  = ((third6bit & 3) << 6) | fourth6bit;
+
+            result += String.fromCharCode(first8bit);
+            result += String.fromCharCode(second8bit);
+            result += String.fromCharCode(third8bit);
+        }
+
+        return result;
     }
 
     var Base64 = {
