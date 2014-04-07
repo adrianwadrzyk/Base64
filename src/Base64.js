@@ -59,7 +59,7 @@
             first8bit, second8bit, third8bit,
             first6bit, second6bit, third6bit, fourth6bit;
 
-        str = str.replace(/=+$/, '');
+        str = str.replace(/=/g, '');
 
         for (var i = 0, len = str.length; i < len; i += 4) {
             first6bit  = INDEX_TABLE.indexOf(str.charAt(i));
@@ -67,9 +67,23 @@
             third6bit  = INDEX_TABLE.indexOf(str.charAt(i + 2));
             fourth6bit = INDEX_TABLE.indexOf(str.charAt(i + 3));
 
-            first8bit  = (first6bit << 2) | (second6bit >> 4);
-            second8bit = ((second6bit & 15) << 4) | (third6bit >> 2);
-            third8bit  = ((third6bit & 3) << 6) | fourth6bit;
+            if (second6bit) {
+                first8bit  = (first6bit << 2) | (second6bit >> 4);
+            } else {
+                first8bit  = (first6bit << 2);
+            }
+
+            if (third6bit) {
+                second8bit = ((second6bit & 15) << 4) | (third6bit >> 2);
+            } else {
+                second8bit = ((second6bit & 15) << 4);
+            }
+
+            if (fourth6bit) {
+                third8bit  = ((third6bit & 3) << 6) | fourth6bit;
+            } else {
+                third8bit  = ((third6bit & 3) << 6);
+            }
 
             result += String.fromCharCode(first8bit);
             result += String.fromCharCode(second8bit);
