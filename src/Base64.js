@@ -53,8 +53,13 @@
             third8bit  = (third6bit & 3) << 6 | fourth6bit;
 
             result += String.fromCharCode(first8bit);
-            result += String.fromCharCode(second8bit);
-            result += String.fromCharCode(third8bit);
+
+            if (str.charAt(i + 3) !== "") {
+                result += String.fromCharCode(second8bit);
+                result += String.fromCharCode(third8bit);
+            } else if (str.charAt(i + 2) !== "") {
+                result += String.fromCharCode(second8bit);
+            }
         }
 
         return result;
