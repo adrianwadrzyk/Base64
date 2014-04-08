@@ -21,8 +21,10 @@
             fourth6bit = third8bit & 63;
 
             if (isNaN(second8bit)) {
-                third6bit = fourth6bit = 64;
-            } else if (isNaN(third8bit)) {
+                third6bit = 64;
+            }
+
+            if (isNaN(third8bit)) {
                 fourth6bit = 64;
             }
 
@@ -54,12 +56,14 @@
 
             result += String.fromCharCode(first8bit);
 
-            if (str.charAt(i + 3) !== "") {
-                result += String.fromCharCode(second8bit);
-                result += String.fromCharCode(third8bit);
-            } else if (str.charAt(i + 2) !== "") {
+            if (str.charAt(i + 2) !== "") {
                 result += String.fromCharCode(second8bit);
             }
+
+            if (str.charAt(i + 3) !== "") {
+                result += String.fromCharCode(third8bit);
+            }
+
         }
 
         return result;

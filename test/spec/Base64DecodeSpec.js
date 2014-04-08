@@ -19,14 +19,9 @@ describe("Decoding Base64", function () {
             "any carnal pleasu"
         ];
 
-    xit("should decode base64 correctly to string", function () {
+    it("should decode base64 correctly to string", function () {
         for (var i = 0; i < input.length; i++) {
-            var test1 = Base64.decode(input[i]);
-            console.log('-----------------------');
-            console.log(test1.length);
-            console.log(output[i].length);
-
-            expect(test1).toEqual(output[i]);
+            expect(Base64.decode(input[i])).toEqual(output[i]);
         }
     });
 });
