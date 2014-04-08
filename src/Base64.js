@@ -3,7 +3,7 @@
 (function (global) {
     "use strict";
 
-    var INDEX_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcedfghijklmnopqrstuvwxyz0123456789+/=";
+    var INDEX_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
     function encode (str) {
         var result = "",
