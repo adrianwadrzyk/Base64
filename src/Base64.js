@@ -3,8 +3,7 @@
 (function (global) {
     "use strict";
 
-    var INDEX_TABLE  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcedfghijklmnopqrstuvwxyz0123456789+/",
-        PADDING_CHAR = "=";
+    var INDEX_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcedfghijklmnopqrstuvwxyz0123456789+/=";
 
     function encode (str) {
         var result = "",
@@ -13,42 +12,24 @@
 
         for(var i = 0, len = str.length; i < len; i += 3) {
             first8bit  = str.charCodeAt(i);
-            second8bit = str.charCodeAt(i+1);
-            third8bit  = str.charCodeAt(i+2);
+            second8bit = str.charCodeAt(i + 1);
+            third8bit  = str.charCodeAt(i + 2);
 
             first6bit  = first8bit >> 2;
-            if (second8bit) {
-                second6bit = ((first8bit & 3) << 4) | (second8bit >> 4);
+            second6bit = (first8bit & 3) << 4 | second8bit >> 4;
+            third6bit  = (second8bit & 15) << 2 | third8bit >> 6;
+            fourth6bit = third8bit & 63;
 
-                if (third8bit) {
-                    third6bit  = ((second8bit & 15) << 2) | (third8bit >> 6);
-                    fourth6bit = third8bit & 63;
-                }
+            if (isNaN(second8bit)) {
+                third6bit = fourth6bit = 64;
+            } else if (isNaN(third8bit)) {
+                fourth6bit = 64;
             }
 
             result += INDEX_TABLE.charAt(first6bit);
-
-            if (second8bit) {
-                result += INDEX_TABLE.charAt(second6bit);
-
-                if(third8bit) {
-                    result += INDEX_TABLE.charAt(third6bit);
-                    result += INDEX_TABLE.charAt(fourth6bit);
-                }
-            }
-        }
-
-        switch(str.length % 3) {
-            case 1:
-                second6bit = (first8bit & 3) << 4;
-                result += INDEX_TABLE.charAt(second6bit);
-                result += PADDING_CHAR + PADDING_CHAR;
-                break;
-            case 2:
-                third6bit = (second8bit & 15) << 2;
-                result += INDEX_TABLE.charAt(third6bit);
-                result += PADDING_CHAR;
-                break;
+            result += INDEX_TABLE.charAt(second6bit);
+            result += INDEX_TABLE.charAt(third6bit);
+            result += INDEX_TABLE.charAt(fourth6bit);
         }
 
         return result;
@@ -67,23 +48,9 @@
             third6bit  = INDEX_TABLE.indexOf(str.charAt(i + 2));
             fourth6bit = INDEX_TABLE.indexOf(str.charAt(i + 3));
 
-            if (second6bit) {
-                first8bit  = (first6bit << 2) | (second6bit >> 4);
-            } else {
-                first8bit  = (first6bit << 2);
-            }
-
-            if (third6bit) {
-                second8bit = ((second6bit & 15) << 4) | (third6bit >> 2);
-            } else {
-                second8bit = ((second6bit & 15) << 4);
-            }
-
-            if (fourth6bit) {
-                third8bit  = ((third6bit & 3) << 6) | fourth6bit;
-            } else {
-                third8bit  = ((third6bit & 3) << 6);
-            }
+            first8bit  = first6bit << 2 | second6bit >> 4;
+            second8bit = (second6bit & 15) << 4 | third6bit >> 2;
+            third8bit  = (third6bit & 3) << 6 | fourth6bit;
 
             result += String.fromCharCode(first8bit);
             result += String.fromCharCode(second8bit);
