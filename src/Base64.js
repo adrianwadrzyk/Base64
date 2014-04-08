@@ -3,7 +3,8 @@
 (function (global) {
     "use strict";
 
-    var INDEX_TABLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+    var CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+        PADDING_CHAR_INDEX = 64;
 
     function encode (str) {
         var result = "",
@@ -21,17 +22,17 @@
             fourth6bit = third8bit & 63;
 
             if (isNaN(second8bit)) {
-                third6bit = 64;
+                third6bit = PADDING_CHAR_INDEX;
             }
 
             if (isNaN(third8bit)) {
-                fourth6bit = 64;
+                fourth6bit = PADDING_CHAR_INDEX;
             }
 
-            result += INDEX_TABLE.charAt(first6bit);
-            result += INDEX_TABLE.charAt(second6bit);
-            result += INDEX_TABLE.charAt(third6bit);
-            result += INDEX_TABLE.charAt(fourth6bit);
+            result += CHARACTER_SET.charAt(first6bit);
+            result += CHARACTER_SET.charAt(second6bit);
+            result += CHARACTER_SET.charAt(third6bit);
+            result += CHARACTER_SET.charAt(fourth6bit);
         }
 
         return result;
@@ -45,10 +46,10 @@
         str = str.replace(/=/g, '');
 
         for (var i = 0, len = str.length; i < len; i += 4) {
-            first6bit  = INDEX_TABLE.indexOf(str.charAt(i));
-            second6bit = INDEX_TABLE.indexOf(str.charAt(i + 1));
-            third6bit  = INDEX_TABLE.indexOf(str.charAt(i + 2));
-            fourth6bit = INDEX_TABLE.indexOf(str.charAt(i + 3));
+            first6bit  = CHARACTER_SET.indexOf(str.charAt(i));
+            second6bit = CHARACTER_SET.indexOf(str.charAt(i + 1));
+            third6bit  = CHARACTER_SET.indexOf(str.charAt(i + 2));
+            fourth6bit = CHARACTER_SET.indexOf(str.charAt(i + 3));
 
             first8bit  = first6bit << 2 | second6bit >> 4;
             second8bit = (second6bit & 15) << 4 | third6bit >> 2;
