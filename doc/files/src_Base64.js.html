@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>src/Base64.js - Base64</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            
+                <h1><img src="../assets/css/logo.png" title="Base64"></h1>
+            
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 1.0.0</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+    <h2 class="off-left">APIs</h2>
+    <div id="api-tabview" class="tabview">
+        <ul class="tabs">
+            <li><a href="#api-classes">Classes</a></li>
+            <li><a href="#api-modules">Modules</a></li>
+        </ul>
+
+        <div id="api-tabview-filter">
+            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+        </div>
+
+        <div id="api-tabview-panel">
+            <ul id="api-classes" class="apis classes">
+            
+                <li><a href="../classes/Base64.html">Base64</a></li>
+            
+            </ul>
+
+            <ul id="api-modules" class="apis modules">
+            
+            </ul>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+        Show:
+        <label for="api-show-inherited">
+            <input type="checkbox" id="api-show-inherited" checked>
+            Inherited
+        </label>
+
+        <label for="api-show-protected">
+            <input type="checkbox" id="api-show-protected">
+            Protected
+        </label>
+
+        <label for="api-show-private">
+            <input type="checkbox" id="api-show-private">
+            Private
+        </label>
+        <label for="api-show-deprecated">
+            <input type="checkbox" id="api-show-deprecated">
+            Deprecated
+        </label>
+
+    </div>
+
+
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+                        <h1 class="file-heading">File: src/Base64.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/* global module */
+
+(function (global) {
+    &quot;use strict&quot;;
+
+    var CHARACTER_SET = &quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=&quot;,
+        PADDING_CHAR_INDEX = 64;
+
+    function encode (str) {
+        if (/[^\u0000-\u00ff]/.test(str)) {
+            throw new Error(&quot;String contains non-ASCII character. Can&#x27;t encode!&quot;);
+        }
+
+        var result = &quot;&quot;,
+            first8bit, second8bit, third8bit,
+            first6bit, second6bit, third6bit, fourth6bit;
+
+        for(var i = 0, len = str.length; i &lt; len; i += 3) {
+            first8bit  = str.charCodeAt(i);
+            second8bit = str.charCodeAt(i + 1);
+            third8bit  = str.charCodeAt(i + 2);
+
+            first6bit  = first8bit &gt;&gt; 2;
+            second6bit = (first8bit &amp; 3) &lt;&lt; 4 | second8bit &gt;&gt; 4;
+            third6bit  = (second8bit &amp; 15) &lt;&lt; 2 | third8bit &gt;&gt; 6;
+            fourth6bit = third8bit &amp; 63;
+
+//          Some strings aren&#x27;t divisible by 3, so we have to add one or two padding characters
+            if (isNaN(second8bit)) {
+                third6bit = PADDING_CHAR_INDEX;
+            }
+
+            if (isNaN(third8bit)) {
+                fourth6bit = PADDING_CHAR_INDEX;
+            }
+
+            result += CHARACTER_SET.charAt(first6bit) +
+                      CHARACTER_SET.charAt(second6bit) +
+                      CHARACTER_SET.charAt(third6bit) +
+                      CHARACTER_SET.charAt(fourth6bit);
+        }
+
+        return result;
+    }
+
+    function decode (str) {
+        str = str.trim();
+
+        if (/^[a-zA-Z0-9\+\/]+\={0,2}$/.test(str) === false) {
+            throw new Error(&quot;String contains characters outside the base64 character set. Can&#x27;t decode!&quot;);
+        }
+
+        var result = &quot;&quot;,
+            first8bit, second8bit, third8bit,
+            first6bit, second6bit, third6bit, fourth6bit;
+
+        str = str.replace(/=/g, &#x27;&#x27;);
+
+        for (var i = 0, len = str.length; i &lt; len; i += 4) {
+            first6bit  = CHARACTER_SET.indexOf(str.charAt(i));
+            second6bit = CHARACTER_SET.indexOf(str.charAt(i + 1));
+            third6bit  = CHARACTER_SET.indexOf(str.charAt(i + 2));
+            fourth6bit = CHARACTER_SET.indexOf(str.charAt(i + 3));
+
+            first8bit  = first6bit &lt;&lt; 2 | second6bit &gt;&gt; 4;
+            second8bit = (second6bit &amp; 15) &lt;&lt; 4 | third6bit &gt;&gt; 2;
+            third8bit  = (third6bit &amp; 3) &lt;&lt; 6 | fourth6bit;
+
+            result += String.fromCharCode(first8bit);
+
+//          Last 2 characters may be only a padding, we remove it from string
+//          before decoding, so method charAt could return empty string
+            if (str.charAt(i + 2) !== &#x27;&#x27;) {
+                result += String.fromCharCode(second8bit);
+            }
+
+            if (str.charAt(i + 3) !== &#x27;&#x27;) {
+                result += String.fromCharCode(third8bit);
+            }
+
+        }
+
+        return result;
+    }
+
+    /**
+     * Base64 encode/decode
+     *
+     * @class Base64
+     */
+    var Base64 = {
+        /**
+         * Encode a given string
+         *
+         * @method encode
+         * @param {String} str string to encode
+         * @return {String} encoded string
+         */
+        &#x27;encode&#x27;: encode,
+
+        /**
+         * Decode a given string
+         *
+         * @method decode
+         * @param {String} str string to decode
+         * @return {String} decode string
+         */
+        &#x27;decode&#x27;: decode
+    };
+
+    if (typeof module === &quot;object&quot; &amp;&amp; typeof module.exports === &quot;object&quot;) {
+        module.exports = Base64;
+    } else {
+        global.Base64 = Base64;
+    }
+}(this));
+
+    </pre>
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

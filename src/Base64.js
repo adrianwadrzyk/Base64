@@ -83,8 +83,28 @@
         return result;
     }
 
+    /**
+     * Base64 encode/decode
+     *
+     * @class Base64
+     */
     var Base64 = {
+        /**
+         * Encode a given string
+         *
+         * @method encode
+         * @param {String} str string to encode
+         * @return {String} encoded string
+         */
         'encode': encode,
+
+        /**
+         * Decode a given string
+         *
+         * @method decode
+         * @param {String} str string to decode
+         * @return {String} decode string
+         */
         'decode': decode
     };
 

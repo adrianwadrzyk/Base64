@@ -1,0 +1,74 @@
+{
+    "project": {
+        "name": "Base64",
+        "description": "My implemenation of Base64 encode/decode",
+        "version": "1.0.0"
+    },
+    "files": {
+        "src/Base64.js": {
+            "name": "src/Base64.js",
+            "modules": {},
+            "classes": {
+                "Base64": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {},
+    "classes": {
+        "Base64": {
+            "name": "Base64",
+            "shortname": "Base64",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "file": "src/Base64.js",
+            "line": 86,
+            "description": "Base64 encode/decode"
+        }
+    },
+    "classitems": [
+        {
+            "file": "src/Base64.js",
+            "line": 92,
+            "description": "Encode a given string",
+            "itemtype": "method",
+            "name": "encode",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "string to encode",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "encoded string",
+                "type": "String"
+            },
+            "class": "Base64"
+        },
+        {
+            "file": "src/Base64.js",
+            "line": 101,
+            "description": "Decode a given string",
+            "itemtype": "method",
+            "name": "decode",
+            "params": [
+                {
+                    "name": "str",
+                    "description": "string to decode",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "decode string",
+                "type": "String"
+            },
+            "class": "Base64"
+        }
+    ],
+    "warnings": []
+}

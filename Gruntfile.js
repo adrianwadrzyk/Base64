@@ -4,6 +4,8 @@ module.exports = function (grunt) {
     "use strict";
 
     grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+
         jshint: {
             src: ["src/*.js", "test/spec/*.js"]
         },
@@ -22,6 +24,18 @@ module.exports = function (grunt) {
             tasks: ["jshint", "jasmine"]
         },
 
+        yuidoc: {
+            doc: {
+                name: "<%= pkg.name %>",
+                description: "<%= pkg.description %>",
+                version: "<%= pkg.version %>",
+                options: {
+                    paths: 'src/',
+                    outdir: "doc/"
+                }
+            }
+        },
+
         uglify: {
             dist: {
                 src: "src/*.js",
@@ -34,7 +48,9 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-contrib-jasmine");
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-uglify");
+    grunt.loadNpmTasks("grunt-contrib-yuidoc");
 
     grunt.registerTask("default", "watch");
     grunt.registerTask("test", "jasmine");
+    grunt.registerTask("build", ["test", "yuidoc", "uglify"]);
 };
