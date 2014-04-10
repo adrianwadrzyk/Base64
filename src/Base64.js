@@ -7,6 +7,10 @@
         PADDING_CHAR_INDEX = 64;
 
     function encode (str) {
+        if (/[^\u0000-\u00ff]/.test(str)) {
+            throw new Error("String contains non-ASCII character. Can't encode!");
+        }
+
         var result = "",
             first8bit, second8bit, third8bit,
             first6bit, second6bit, third6bit, fourth6bit;
@@ -21,6 +25,7 @@
             third6bit  = (second8bit & 15) << 2 | third8bit >> 6;
             fourth6bit = third8bit & 63;
 
+//          Some strings aren't divisible by 3, so we have to add one or two padding characters
             if (isNaN(second8bit)) {
                 third6bit = PADDING_CHAR_INDEX;
             }
@@ -29,16 +34,22 @@
                 fourth6bit = PADDING_CHAR_INDEX;
             }
 
-            result += CHARACTER_SET.charAt(first6bit);
-            result += CHARACTER_SET.charAt(second6bit);
-            result += CHARACTER_SET.charAt(third6bit);
-            result += CHARACTER_SET.charAt(fourth6bit);
+            result += CHARACTER_SET.charAt(first6bit) +
+                      CHARACTER_SET.charAt(second6bit) +
+                      CHARACTER_SET.charAt(third6bit) +
+                      CHARACTER_SET.charAt(fourth6bit);
         }
 
         return result;
     }
 
     function decode (str) {
+        str = str.trim();
+
+        if (/[a-zA-Z0-9\+\/]+\={0,2}/.test(str) === false) {
+            throw new Error("String contains characters outside the base64 character set. Can't decode!");
+        }
+
         var result = "",
             first8bit, second8bit, third8bit,
             first6bit, second6bit, third6bit, fourth6bit;
@@ -57,6 +68,8 @@
 
             result += String.fromCharCode(first8bit);
 
+//          Last 2 characters may be only a padding, we remove it from string
+//          before decoding, so method charAt could return empty string
             if (str.charAt(i + 2) !== "") {
                 result += String.fromCharCode(second8bit);
             }
