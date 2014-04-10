@@ -46,7 +46,7 @@
     function decode (str) {
         str = str.trim();
 
-        if (/[a-zA-Z0-9\+\/]+\={0,2}/.test(str) === false) {
+        if (/^[a-zA-Z0-9\+\/]+\={0,2}$/.test(str) === false) {
             throw new Error("String contains characters outside the base64 character set. Can't decode!");
         }
 
@@ -70,11 +70,11 @@
 
 //          Last 2 characters may be only a padding, we remove it from string
 //          before decoding, so method charAt could return empty string
-            if (str.charAt(i + 2) !== "") {
+            if (str.charAt(i + 2) !== '') {
                 result += String.fromCharCode(second8bit);
             }
 
-            if (str.charAt(i + 3) !== "") {
+            if (str.charAt(i + 3) !== '') {
                 result += String.fromCharCode(third8bit);
             }
 

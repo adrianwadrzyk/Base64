@@ -37,4 +37,9 @@ describe("Encoding Base64", function () {
         }
     });
 
+    it("should throw, when string contains non-ASCII character", function () {
+       expect(function () {
+           Base64.encode("żądło");
+       }).toThrowError("String contains non-ASCII character. Can't encode!");
+    });
 });
