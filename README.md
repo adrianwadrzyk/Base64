@@ -4,9 +4,10 @@
 
 #### Usage
 
-* `Base64.encode("Lorem ipsum ...")` returns `"TG9yZW0gaXBzdW0gLi4u"`
-* `Base64.decode("ZG9sb3Igc2l0IGFtZXQu")` returns `"dolor sit amet.
-
+```javascript
+Base64.encode("Lorem ipsum ...")` returns `"TG9yZW0gaXBzdW0gLi4u"
+Base64.decode("ZG9sb3Igc2l0IGFtZXQu")` returns `"dolor sit amet."
+```
 
 #### License
 
