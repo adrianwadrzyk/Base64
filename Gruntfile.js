@@ -40,6 +40,9 @@ module.exports = function (grunt) {
             dist: {
                 src: "src/*.js",
                 dest: "dist/Base64.min.js"
+            },
+            options: {
+                preserveComments: "some"
             }
         }
     });

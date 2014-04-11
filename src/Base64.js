@@ -1,5 +1,13 @@
 /* global module */
 
+/**!
+ * Base64 encode/decode
+ *
+ * @version 1.0.0
+ * @link https://github.com/adrianwadrzyk/Base64
+ * @author Adrian Wądrzyk <adrian.wadrzyk@gmail.com>
+ * @license MIT License
+ */
 (function (global) {
     "use strict";
 

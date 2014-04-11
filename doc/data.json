@@ -26,14 +26,24 @@
             "plugin_for": [],
             "extension_for": [],
             "file": "src/Base64.js",
-            "line": 86,
+            "line": 94,
             "description": "Base64 encode/decode"
         }
     },
     "classitems": [
         {
             "file": "src/Base64.js",
-            "line": 92,
+            "line": 3,
+            "description": "Base64 encode/decode",
+            "version": "1.0.0",
+            "link": "https://github.com/adrianwadrzyk/Base64",
+            "author": "Adrian Wądrzyk <adrian.wadrzyk@gmail.com>",
+            "license": "MIT License",
+            "class": "Base64"
+        },
+        {
+            "file": "src/Base64.js",
+            "line": 100,
             "description": "Encode a given string",
             "itemtype": "method",
             "name": "encode",
@@ -52,7 +62,7 @@
         },
         {
             "file": "src/Base64.js",
-            "line": 101,
+            "line": 109,
             "description": "Decode a given string",
             "itemtype": "method",
             "name": "decode",
@@ -70,5 +80,22 @@
             "class": "Base64"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "unknown tag: version",
+            "line": " src/Base64.js:3"
+        },
+        {
+            "message": "unknown tag: link",
+            "line": " src/Base64.js:3"
+        },
+        {
+            "message": "unknown tag: license",
+            "line": " src/Base64.js:3"
+        },
+        {
+            "message": "Missing item type\nBase64 encode/decode",
+            "line": " src/Base64.js:3"
+        }
+    ]
 }
