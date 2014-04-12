@@ -55,7 +55,7 @@
         str = str.trim();
 
         if (/^[a-zA-Z0-9\+\/]+\={0,2}$/.test(str) === false) {
-            throw new Error("String contains characters outside the base64 character set. Can't decode!");
+            throw new Error("String contains character outside the base64 character set. Can't decode!");
         }
 
         var result = "",
