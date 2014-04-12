@@ -28,6 +28,6 @@ describe("Decoding Base64", function () {
     it("should throw error, when string contains character outside  from base64 character set", function () {
        expect(function () {
            Base64.decode("abc|de");
-       }).toThrowError("String contains characters outside the base64 character set. Can't decode!");
+       }).toThrowError("String contains character outside the base64 character set. Can't decode!");
     });
 });
