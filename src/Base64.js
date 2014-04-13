@@ -5,7 +5,7 @@
  *
  * @version 1.0.0
  * @link https://github.com/adrianwadrzyk/Base64
- * @author Adrian Wądrzyk <adrian.wadrzyk@gmail.com>
+ * @author Adrian Wądrzyk
  * @license MIT License
  */
 (function (global) {
