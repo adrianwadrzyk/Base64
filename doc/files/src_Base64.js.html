@@ -93,7 +93,7 @@
  *
  * @version 1.0.0
  * @link https://github.com/adrianwadrzyk/Base64
- * @author Adrian Wądrzyk &lt;adrian.wadrzyk@gmail.com&gt;
+ * @author Adrian Wądrzyk
  * @license MIT License
  */
 (function (global) {
@@ -143,7 +143,7 @@
         str = str.trim();
 
         if (/^[a-zA-Z0-9\+\/]+\={0,2}$/.test(str) === false) {
-            throw new Error(&quot;String contains characters outside the base64 character set. Can&#x27;t decode!&quot;);
+            throw new Error(&quot;String contains character outside the base64 character set. Can&#x27;t decode!&quot;);
         }
 
         var result = &quot;&quot;,
