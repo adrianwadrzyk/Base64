@@ -111,7 +111,7 @@
          *
          * @method decode
          * @param {String} str string to decode
-         * @return {String} decode string
+         * @return {String} decoded string
          */
         'decode': decode
     };
